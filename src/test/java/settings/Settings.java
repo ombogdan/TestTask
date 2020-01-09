@@ -34,6 +34,6 @@ public class Settings {
 
     @After
     public void quit() {
-        //driver.quit();
+        driver.quit();
     }
 }
