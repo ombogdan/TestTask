@@ -9,5 +9,6 @@ class AgrocontrolPage {
     By object = By.xpath("//*[@id=\"leftColCont\"]/div/div/form/div[8]/div/div[2]/a/span[1]");
     By date = By.xpath("//*[@id=\"leftColCont\"]/div/div/form/div[23]/div/p/input");
     By generateBtn = By.xpath("//*[@id=\"footerButtons\"]/button[2]");
-    By data = By.className("ng-binding");
+    By dataTable = By.xpath("//*[@id=\"reportResultTemplate\"]/div/div/div/div[3]/div/div[1]/table/tbody/tr/td[2]");
+    By nameTable = By.xpath("//*[@id=\"reportResultTemplate\"]/div/div/div/div[3]/div/div[1]/table/tbody/tr/td[1]");
 }
