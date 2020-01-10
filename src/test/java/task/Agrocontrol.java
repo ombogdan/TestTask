@@ -1,9 +1,10 @@
 package task;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -11,11 +12,8 @@ import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import settings.Settings;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,9 +24,7 @@ public class Agrocontrol extends Settings {
     public void getReport() throws InterruptedException, IOException {
         Actions move = new Actions(driver);
         ObjectMapper mapper = new ObjectMapper();
-        Gson gson = new Gson();
-        File changedFile = new File("C:\\Users\\omelc\\IdeaProjects\\agroTest\\src\\test\\java\\data\\changed.json");
-        File etalonFile = new File("C:\\Users\\omelc\\IdeaProjects\\agroTest\\src\\test\\java\\data\\etalon.json");
+        File changedFile = new File("src/test/resources/changed.json");
         driver.findElement(agPage.reportPage).click();
         driver.findElement(agPage.reportBy).click();
         driver.findElement(By.xpath("//*[contains(text(), 'По топливу')]")).click();
@@ -43,11 +39,31 @@ public class Agrocontrol extends Settings {
         WebElement slider = driver.findElement(By.className("hsplitter"));
         Action action = move.dragAndDropBy(slider, 0, 10).build();
         action.perform();
-        BufferedReader etalonBuffered = new BufferedReader(new FileReader(etalonFile));
-        String etalonLine = etalonBuffered.readLine();
-        Type etalonlList = new TypeToken<ArrayList<String>>() {
-        }.getType();
-        List<String> etalonDataArray = gson.fromJson(etalonLine, etalonlList);
+        File actualFile = FileUtils.getFile("src/test/resources/standard.json");
+        String str = FileUtils.readFileToString(actualFile, "utf-8");
+        JSONObject json = JSON.parseObject(str);
+        JSONArray arry = JSONArray.parseArray(json.get("actualData").toString());
+        List<String> etalonDataArray = new ArrayList<>();
+        for (int i = 0; i < arry.size(); i++) {
+            JSONObject obj = (JSONObject) arry.get(i);
+            etalonDataArray.add(obj.getString("Объект"));
+            etalonDataArray.add(obj.getString("Ср.расход л/100км (в движении)"));
+            etalonDataArray.add(obj.getString("Стоянки"));
+            etalonDataArray.add(obj.getString("Время в движении"));
+            etalonDataArray.add(obj.getString("Нач.уровень(л)"));
+            etalonDataArray.add(obj.getString("Ср.скорость (км/час)"));
+            etalonDataArray.add(obj.getString("Потрачено топлива(л)"));
+            etalonDataArray.add(obj.getString("Слито(л)"));
+            etalonDataArray.add(obj.getString("Потрачено топлива(л) (в движении)"));
+            etalonDataArray.add(obj.getString("Пробег(км)"));
+            etalonDataArray.add(obj.getString("Заправлено(л)"));
+            etalonDataArray.add(obj.getString("Заправлено по АЗС(л)"));
+            etalonDataArray.add(obj.getString("Ср.расход л/100км"));
+            etalonDataArray.add(obj.getString("Остановки"));
+            etalonDataArray.add(obj.getString("Остаток в баке(л)"));
+            etalonDataArray.add(obj.getString("Макс.скорость (км/час)"));
+            etalonDataArray.add(obj.getString("Моточасы"));
+        }
         List<WebElement> data = driver.findElements(agPage.dataTable);
         List<WebElement> name = driver.findElements(agPage.nameTable);
         JSONObject nameJSON = new JSONObject();
