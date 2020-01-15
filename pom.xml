@@ -98,7 +98,23 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.33</version>
         </dependency>
-
+        <!-- https://mvnrepository.com/artifact/com.github.foodev/jsondiff -->
+        <dependency>
+            <groupId>com.github.foodev</groupId>
+            <artifactId>jsondiff</artifactId>
+            <version>2.0.0</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.10.1</version>
+        </dependency>
+        <dependency>
+        <groupId>com.flipkart.zjsonpatch</groupId>
+        <artifactId>zjsonpatch</artifactId>
+        <version>0.4.9</version>
+        </dependency>
 
     </dependencies>
 </project>
