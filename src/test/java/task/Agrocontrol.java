@@ -28,6 +28,7 @@ public class Agrocontrol extends Settings {
         JSONObject nameJSON = new JSONObject();
         File changedFile = new File("src/test/resources/changed.json");
         File actualFile = FileUtils.getFile("src/test/resources/actual.json");
+        File standardFile = FileUtils.getFile("src/test/resources/standard.json");
         driver.findElement(agPage.reportPage).click();
         driver.findElement(agPage.reportBy).click();
         driver.findElement(By.xpath("//*[contains(text(), 'По топливу')]")).click();
@@ -42,9 +43,8 @@ public class Agrocontrol extends Settings {
         WebElement slider = driver.findElement(By.className("hsplitter"));
         Action action = move.dragAndDropBy(slider, 0, 10).build();
         action.perform();
-        File standardFile = FileUtils.getFile("src/test/resources/standard.json");
-        String str = FileUtils.readFileToString(standardFile, "utf-8");
-        JSONObject json = JSON.parseObject(str);
+        String standardStr = FileUtils.readFileToString(standardFile, "utf-8");
+        JSONObject json = JSON.parseObject(standardStr);
         List<WebElement> data = driver.findElements(agPage.dataTable);
         List<WebElement> name = driver.findElements(agPage.nameTable);
         for (int j = 0; j < data.size(); j++) {
